@@ -1,0 +1,113 @@
+.page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  padding-top: 64px;
+}
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+  .left {
+    display: none;
+  }
+}
+
+.left {
+  display: flex;
+  justify-content: flex-end;
+}
+.phone {
+  max-width: 420px;
+  height: 100%;
+}
+.phoneTop {
+  position: relative;
+  left: -278px;
+  top: 20px;
+  width: 14rem;
+  height: 30.5rem;
+}
+
+.right {
+  max-width: 420px;
+  width: 100%;
+}
+
+.card,
+.cardAlt {
+  border: 1px solid #dbdbdb;
+  border-radius: 1px;
+  padding: 24px;
+}
+.card {
+  display: grid;
+  gap: 16px;
+}
+.cardAlt {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.logo {
+  justify-self: center;
+  margin-bottom: 4px;
+}
+
+.form {
+  display: grid;
+  gap: 10px;
+}
+.input {
+  border: 1px solid #dbdbdb;
+  padding: 10px 12px;
+  background: #fafafa;
+  border-radius: 1px;
+}
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #0095f6;
+  color: #fff;
+  font-weight: 600;
+}
+.separator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #737373;
+  font-size: 12px;
+  margin-top: 2px;
+}
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #737373;
+}
+
+.linkRow {
+  text-align: center;
+  font-size: 13px;
+  color: #00376b;
+}
+.linkRow a {
+  text-decoration: none;
+  color: #00376b;
+}
+
+.sign {
+  text-decoration: none;
+  color: #0095F6;
+}
+
+.err {
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: -6px;
+}

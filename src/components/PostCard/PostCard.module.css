@@ -1,0 +1,157 @@
+.card {
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+}
+.headLeft {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #eee;
+}
+.topLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.author {
+  font-weight: 700;
+}
+.dot {
+  color: #9aa1a9;
+}
+.time {
+  color: #6b7280;
+  font-size: 12px;
+}
+.follow {
+  margin-left: 6px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: #3b82f6;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.actionsRight {
+  display: flex;
+  align-items: center;
+}
+
+/* IMAGE */
+.media {
+  background: #000;
+  cursor: pointer;
+}
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ACTIONS ROW */
+.actionsRow {
+  display: flex;
+  gap: 10px;
+  padding: 10px 8px 4px;
+}
+.iconBtn {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  border-radius: 6px;
+  transition: transform 0.12s ease;
+}
+.iconBtn:hover {
+  transform: translateY(-1px);
+}
+.icon {
+  width: 26px;
+  height: 26px;
+  color: #111;
+}
+.liked .icon {
+  color: #ef4444;
+}
+.liked .icon path {
+  fill: #ef4444;
+  stroke: #ef4444;
+}
+
+/* LIKES / CAPTION */
+.likes {
+  padding: 0 12px 6px;
+  font-weight: 700;
+}
+.caption {
+  padding: 0 12px 8px;
+  line-height: 1.25;
+}
+
+/* COMMENTS */
+.comments {
+  padding: 0 12px 8px;
+}
+.viewAll {
+  border: 0;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 0 0 6px 0;
+  padding: 0;
+}
+.commentRow {
+  margin: 4px 0;
+}
+.commentAuthor {
+  font-weight: 600;
+}
+
+/* ADD COMMENT */
+.addForm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid #efefef;
+  padding: 8px 10px;
+}
+.input {
+  flex: 1;
+  border: 0;
+  outline: none;
+  padding: 6px;
+  font-size: 14px;
+}
+.postBtn {
+  border: 0;
+  background: transparent;
+  color: #3b82f6;
+  cursor: pointer;
+  font-weight: 600;
+  opacity: 1;
+}
+.postBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

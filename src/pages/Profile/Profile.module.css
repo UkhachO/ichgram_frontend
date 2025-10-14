@@ -1,0 +1,53 @@
+/* src/pages/Profile/Profile.module.css */
+.page {
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+.header {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+}
+.avatar {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.meta {
+  flex: 1;
+  min-width: 0;
+}
+.row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.username {
+  font-size: 24px;
+  font-weight: 600;
+}
+.editBtn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #efefef;
+}
+.counters {
+  display: flex;
+  gap: 24px;
+  margin: 12px 0;
+}
+.bio {
+  display: grid;
+  gap: 6px;
+}
+.grid {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.error {
+  color: #c00;
+}

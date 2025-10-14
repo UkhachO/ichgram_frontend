@@ -1,0 +1,40 @@
+.dots {
+  border: 0;
+  background: transparent;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+.sheet {
+  width: 260px;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+}
+.sheet > button {
+  padding: 12px 14px;
+  background: #fff;
+  border: 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  font-weight: 600;
+}
+.sheet > button:last-child {
+  border-bottom: 0;
+}
+.danger {
+  color: #b91c1c;
+}
