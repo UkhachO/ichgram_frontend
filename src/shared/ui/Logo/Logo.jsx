@@ -1,5 +1,5 @@
 import logoUrl from '../../../assets/ICHGRAM.svg';
-import './logo.module.css';
+import './Logo.module.css';
 
 const Logo = ({
   size = 160,
