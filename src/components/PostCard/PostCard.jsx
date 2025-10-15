@@ -1,4 +1,3 @@
-// src/components/PostCard/PostCard.jsx
 import { useEffect, useState } from 'react';
 import { Heart, MessageCircle } from 'lucide-react';
 import styles from './PostCard.module.css';
@@ -30,7 +29,6 @@ export default function PostCard({
   const [loadingComments, setLoadingComments] = useState(true);
   const [commentText, setCommentText] = useState('');
 
-  // --- utils -------------------------------------------------
   const formatNumber = (n) =>
     new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(
       Number(n || 0)
@@ -56,9 +54,7 @@ export default function PostCard({
 
   const username = post?.author?.username || 'user';
   const createdAtStr = `${timeAgo(post?.createdAt)} `;
-  // -----------------------------------------------------------
 
-  // якщо liked не прийшов у пості — дізнаємося з бекенду
   useEffect(() => {
     let ignore = false;
     if (postId && typeof liked !== 'boolean') {
@@ -72,7 +68,6 @@ export default function PostCard({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postId]);
 
-  // прев’ю коментарів (2 шт) + total
   useEffect(() => {
     let ignore = false;
     if (!postId) return;
@@ -98,13 +93,12 @@ export default function PostCard({
     };
   }, [postId]);
 
-  // оптимістичний like (бек повертає лише { liked })
   const onLike = async () => {
-    const next = !(liked === true); // якщо undefined -> true
+    const next = !(liked === true);
     setLiked(next);
     setLikes((n) => Math.max(0, n + (next ? 1 : -1)));
     try {
-      const res = await toggleLike(postId); // { liked }
+      const res = await toggleLike(postId);
       if (typeof res?.liked === 'boolean' && res.liked !== next) {
         setLiked(res.liked);
         setLikes((n) =>
@@ -112,7 +106,6 @@ export default function PostCard({
         );
       }
     } catch {
-      // відкот
       setLiked(!next);
       setLikes((n) => Math.max(0, n + (next ? -1 : +1)));
     }
@@ -125,7 +118,7 @@ export default function PostCard({
     setCommentText('');
     try {
       const created = await addComment(postId, text);
-      // підставимо у прев’ю, збільшимо total
+
       setPreviewComments((prev) => [created, ...prev].slice(0, 2));
       setCommentsTotal((t) => t + 1);
     } catch (err) {
@@ -135,7 +128,6 @@ export default function PostCard({
 
   return (
     <article className={styles.card}>
-      {/* HEADER */}
       <header className={styles.header}>
         <div className={styles.headLeft}>
           <img
@@ -165,7 +157,6 @@ export default function PostCard({
         </div>
       </header>
 
-      {/* IMAGE */}
       <div className={styles.media} onClick={() => onOpen?.(post)}>
         <img
           className={styles.image}
@@ -175,38 +166,34 @@ export default function PostCard({
         />
       </div>
 
-      {/* ACTIONS ROW */}
       <div className={styles.actionsRow}>
-  <button
-    className={`${styles.iconBtn} ${liked ? styles.liked : ''}`}
-    onClick={onLike}
-    aria-label="Like"
-    type="button"
-  >
-    <Heart className={styles.icon} strokeWidth={1.8} />
-  </button>
+        <button
+          className={`${styles.iconBtn} ${liked ? styles.liked : ''}`}
+          onClick={onLike}
+          aria-label="Like"
+          type="button"
+        >
+          <Heart className={styles.icon} strokeWidth={1.8} />
+        </button>
 
-  <button
-    className={styles.iconBtn}
-    onClick={() => onOpen?.(post)}
-    aria-label="Comments"
-    type="button"
-  >
-    <MessageCircle className={styles.icon} strokeWidth={1.8} />
-  </button>
-</div>
+        <button
+          className={styles.iconBtn}
+          onClick={() => onOpen?.(post)}
+          aria-label="Comments"
+          type="button"
+        >
+          <MessageCircle className={styles.icon} strokeWidth={1.8} />
+        </button>
+      </div>
 
-      {/* LIKES */}
       <div className={styles.likes}>{formatNumber(likes)} likes</div>
 
-      {/* CAPTION */}
       {post?.description && (
         <div className={styles.caption}>
           <span className={styles.author}>{username}</span> {post.description}
         </div>
       )}
 
-      {/* COMMENTS PREVIEW */}
       <div className={styles.comments}>
         {commentsTotal > 0 && (
           <button
@@ -229,7 +216,6 @@ export default function PostCard({
           ))}
       </div>
 
-      {/* ADD COMMENT */}
       <form className={styles.addForm} onSubmit={onAddComment}>
         <input
           className={styles.input}

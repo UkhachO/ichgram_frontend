@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import styles from './Verify.module.css';
 import Logo from '../../../shared/ui/Logo/Logo';
 
-
 const RAW = (import.meta.env.VITE_API_URL || 'http://localhost:3000').replace(
   /\/+$/,
   ''
@@ -34,8 +33,6 @@ export default function Verify() {
       try {
         const res = await fetch(url, { credentials: 'include' });
 
-        // Якщо бекенд віддає «голий» HTML — все одно показуємо наш success-UI,
-        // якщо статус 2xx. Інакше зчитаємо JSON з повідомленням помилки.
         if (res.ok) {
           setState({ status: 'ok', message: 'Verification successful.' });
         } else {

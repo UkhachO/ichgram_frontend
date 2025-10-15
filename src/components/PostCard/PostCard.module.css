@@ -7,7 +7,6 @@
   margin: 0 auto;
 }
 
-/* HEADER */
 .header {
   display: flex;
   align-items: center;
@@ -56,7 +55,6 @@
   align-items: center;
 }
 
-/* IMAGE */
 .media {
   background: #000;
   cursor: pointer;
@@ -67,7 +65,6 @@
   display: block;
 }
 
-/* ACTIONS ROW */
 .actionsRow {
   display: flex;
   gap: 10px;
@@ -98,7 +95,6 @@
   stroke: #ef4444;
 }
 
-/* LIKES / CAPTION */
 .likes {
   padding: 0 12px 6px;
   font-weight: 700;
@@ -108,7 +104,6 @@
   line-height: 1.25;
 }
 
-/* COMMENTS */
 .comments {
   padding: 0 12px 8px;
 }
@@ -128,7 +123,6 @@
   font-weight: 600;
 }
 
-/* ADD COMMENT */
 .addForm {
   display: flex;
   align-items: center;

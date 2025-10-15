@@ -1,4 +1,3 @@
-// src/App.jsx
 import { Routes, Route } from 'react-router-dom';
 
 import AppLayout from './layout/AppLayout';
@@ -20,7 +19,6 @@ import EditProfile from './pages/Profile/EditProfile/EditProfile';
 export default function App() {
   return (
     <Routes>
-      {/* ===== Захищена частина з лівим меню ===== */}
       <Route
         element={
           <PrivateRoute>
@@ -28,29 +26,19 @@ export default function App() {
           </PrivateRoute>
         }
       >
-        {/* "/" */}
         <Route index element={<Home />} />
 
-        {/* інші захищені сторінки */}
-        <Route path="search" element={<div />} />
-        <Route path="explore" element={<div />} />
-        <Route path="messages" element={<div />} />
-        <Route path="notifications" element={<div />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="profile/edit" element={<EditProfile />} />
+        <Route path="profile/:id" element={<Profile />} />
 
-        {/* тут відкриваємо модалку створення/редагування поста */}
+        <Route path="search" element={<div>Search</div>} />
+        <Route path="explore" element={<div>Explore</div>} />
+        <Route path="messages" element={<div>Messages</div>} />
+        <Route path="notifications" element={<div>Notifications</div>} />
         <Route path="create" element={<Create />} />
-
-        <Route path="profile" element={<div />} />
       </Route>
 
-      <Route element={<PrivateRoute />}>
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/profile/edit" element={<EditProfile />} />
-      </Route>
-      {/* ===== кінець захищеного блоку ===== */}
-
-      {/* Публічні маршрути */}
       <Route
         path="/login"
         element={

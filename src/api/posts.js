@@ -1,29 +1,25 @@
-// src/api/posts.js
 import { apiFetch } from './client';
 
 export async function fetchPosts({ page = 1, limit = 12, author } = {}) {
   const params = new URLSearchParams();
-  params.set('page', page);
-  params.set('limit', limit);
-  if (author) params.set('author', author);
+  params.set('page', String(page));
+  params.set('limit', String(limit));
+  if (author) params.set('author', String(author));
 
-  const data = await apiFetch(`/posts?${params.toString()}`);
+  const data = await apiFetch(`/posts?${params.toString()}`, {
+    credentials: 'include',
+  });
 
-  // нормалізація: очікуємо { items, total, pages }
-  const items = Array.isArray(data?.items)
+  const root = data?.data ?? data ?? {};
+  const items = Array.isArray(root.items)
+    ? root.items
+    : Array.isArray(data?.items)
     ? data.items
-    : Array.isArray(data?.data?.items)
-    ? data.data.items
-    : Array.isArray(data)
-    ? data
     : [];
 
-  const total = Number.isFinite(data?.total)
-    ? data.total
-    : data?.data?.total ?? items.length;
-  const pages = Number.isFinite(data?.pages)
-    ? data.pages
-    : data?.data?.pages ?? 1;
+  const total =
+    Number(root.total ?? data?.total ?? items.length) || items.length;
+  const pages = Number(root.pages ?? data?.pages ?? 1) || 1;
 
   return { items, total, pages };
 }

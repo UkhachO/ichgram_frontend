@@ -1,7 +1,6 @@
-// src/pages/Profile/EditProfile.jsx
 import { useEffect, useRef, useState } from 'react';
 import styles from './EditProfile.module.css';
-import { getMe, updateMe, uploadAvatar } from '../../../api/users'
+import { getMe, updateMe, uploadAvatar } from '../../../api/users';
 
 export default function EditProfile() {
   const [form, setForm] = useState({
@@ -38,7 +37,7 @@ export default function EditProfile() {
     if (!file) return;
     try {
       setSaving(true);
-      const res = await uploadAvatar(file); // { ok, url }
+      const res = await uploadAvatar(file);
       if (res?.url) {
         setForm((f) => ({ ...f, avatarUrl: res.url }));
       }
@@ -88,9 +87,7 @@ export default function EditProfile() {
           />
           <div className={styles.summary}>
             <div className={styles.name}>{form.username || 'username'}</div>
-            <div className={styles.gray}>
-              {/* тут будь-що коротке про акаунт */}
-            </div>
+            <div className={styles.gray}></div>
           </div>
         </div>
 

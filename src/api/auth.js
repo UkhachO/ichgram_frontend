@@ -17,10 +17,8 @@ export async function loginApi(emailOrUsername, password) {
   return data;
 }
 
-
 export async function forgotPassword(email) {
   const res = await fetch(apiUrl('/auth/password/forgot'), {
-    // <- /auth/...
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),
@@ -33,7 +31,6 @@ export async function forgotPassword(email) {
 
 export async function resetPassword({ token, password }) {
   const res = await fetch(apiUrl('/auth/password/reset'), {
-    // <- /auth/...
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ token, password }),

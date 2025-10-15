@@ -1,4 +1,3 @@
-// src/components/FeedEnd/FeedEnd.jsx
 import styles from './FeedEnd.module.css';
 
 export default function FeedEnd() {

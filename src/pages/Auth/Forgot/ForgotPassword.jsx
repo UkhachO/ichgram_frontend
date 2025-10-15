@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import styles from './ForgotPassword.module.css';
 import { forgotPassword } from '../../../api/auth';
 
-// імпорти картинок
 import Logo from '../../../shared/ui/Logo/Logo';
-import lockImg from '../../../assets/lock-img.svg'; // кругла іконка замка
+import lockImg from '../../../assets/lock-img.svg';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -18,13 +17,15 @@ export default function ForgotPassword() {
     setMsg('');
     setError('');
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError('Введіть коректний email');
+      setError('Введите корректный email');
       return;
     }
     try {
       setLoading(true);
       await forgotPassword(email.trim());
-      setMsg('Лист для відновлення надіслано. Перевірте пошту (діє 1 годину).');
+      setMsg(
+        'Письмо для восстановления отправлено. Проверьте почту (действует 1 час).'
+      );
       setEmail('');
     } catch (e) {
       setError(e.message);
@@ -35,7 +36,6 @@ export default function ForgotPassword() {
 
   return (
     <div className={styles.page}>
-      {/* верхня смуга з логотипом ліворуч */}
       <header className={styles.topbar}>
         <Link to="/" className={styles.brand}>
           <Logo className={styles.brandImg} />

@@ -17,15 +17,16 @@ export default function ResetPassword() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!token) setError('Недійсне або відсутнє посилання для відновлення.');
+    if (!token)
+      setError('Неверная или отсутствующая ссылка для восстановления.');
   }, [token]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setError('');
     if (!token) return;
-    if (password.length < 8) return setError('Мінімум 8 символів');
-    if (password !== repeat) return setError('Паролі не співпадають');
+    if (password.length < 8) return setError('Минимум 8 символов');
+    if (password !== repeat) return setError('Пароли не совпадают');
 
     try {
       setLoading(true);
@@ -42,7 +43,6 @@ export default function ResetPassword() {
 
   return (
     <div className={styles.page}>
-      {/* top bar з логотипом ліворуч */}
       <header className={styles.topbar}>
         <Link to="/" className={styles.brand}>
           <Logo className={styles.brandImg} />
@@ -58,9 +58,7 @@ export default function ResetPassword() {
               </div>
 
               <h2 className={styles.title}>Set a new password</h2>
-              <p className={styles.sub}>
-                Введіть новий пароль для свого акаунта.
-              </p>
+              <p className={styles.sub}>Введите новый пароль для аккаунта.</p>
 
               <form onSubmit={onSubmit} className={styles.form}>
                 <input
@@ -98,7 +96,7 @@ export default function ResetPassword() {
                 alt=""
                 aria-hidden
               />
-              <p className={styles.successText}>Пароль оновлено ✅</p>
+              <p className={styles.successText}>Пароль обновлен</p>
               <Link to="/login" className={styles.linkPrimary}>
                 Go to login
               </Link>

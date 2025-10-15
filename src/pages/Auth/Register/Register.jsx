@@ -1,10 +1,8 @@
-// src/pages/Auth/Register/Register.jsx
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Logo from '../../../shared/ui/Logo/Logo';
 import styles from './Register.module.css';
 
-// Безпечний конструктор API root.
 const RAW = (import.meta.env.VITE_API_URL || 'http://localhost:3000').replace(
   /\/+$/,
   ''
@@ -13,8 +11,6 @@ const API_ROOT = RAW.endsWith('/api') ? RAW : `${RAW}/api`;
 const apiUrl = (path) =>
   `${API_ROOT}${path.startsWith('/') ? path : '/' + path}`;
 
-// прості клієнтські перевірки (щоб миттєво підсвічувати поля)
-// бекенд все одно зробить свою валідацію
 const usernameRe = /^[a-z0-9_]+$/;
 
 export default function Register() {
@@ -114,7 +110,6 @@ export default function Register() {
         {serverError && <div className={styles.serverError}>{serverError}</div>}
 
         <form onSubmit={onSubmit} className={styles.form} noValidate>
-          {/* Email */}
           <input
             className={`${styles.input} ${
               errors.email ? styles.inputError : ''
@@ -128,7 +123,6 @@ export default function Register() {
           />
           {errors.email && <div className={styles.error}>{errors.email}</div>}
 
-          {/* Full name */}
           <input
             className={`${styles.input} ${
               errors.fullName ? styles.inputError : ''
@@ -144,7 +138,6 @@ export default function Register() {
             <div className={styles.error}>{errors.fullName}</div>
           )}
 
-          {/* Username */}
           <input
             className={`${styles.input} ${
               errors.username ? styles.inputError : ''
@@ -160,7 +153,6 @@ export default function Register() {
             <div className={styles.error}>{errors.username}</div>
           )}
 
-          {/* Password */}
           <input
             className={`${styles.input} ${
               errors.password ? styles.inputError : ''
@@ -176,7 +168,6 @@ export default function Register() {
             <div className={styles.error}>{errors.password}</div>
           )}
 
-          {/* ці два абзаци ПЕРЕД кнопкою */}
           <p className={styles.muted}>
             People who use our service may have uploaded your contact
             information to Instagram.{' '}
@@ -194,7 +185,6 @@ export default function Register() {
             {loading ? 'Signing up…' : 'Sign up'}
           </button>
         </form>
-
       </div>
 
       <div className={styles.card}>

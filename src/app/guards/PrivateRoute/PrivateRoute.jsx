@@ -1,4 +1,3 @@
-// src/app/guards/PrivateRoute/PrivateRoute.jsx
 import { useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 

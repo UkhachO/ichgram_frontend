@@ -4,10 +4,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 export default function Create() {
   const navigate = useNavigate();
   const location = useLocation();
-  // якщо прийшли з редагування — передамо initial (не обов’язково)
+
   const initial = location.state?.editInit || null;
 
-  const close = () => navigate(-1); // або navigate('/', { replace: true })
+  const close = () => navigate(-1);
   const done = () =>
     navigate('/', { replace: true, state: { refreshFeed: Date.now() } });
 

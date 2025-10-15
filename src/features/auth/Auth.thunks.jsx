@@ -33,8 +33,6 @@ export const getCurrentThunk = createAsyncThunk(
 export const logoutThunk = createAsyncThunk('auth/logout', async () => {
   try {
     await instance.post('/auth/logout');
-  } catch {
-    
-  }
+  } catch {}
   setToken(null);
 });

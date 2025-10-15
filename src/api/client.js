@@ -1,4 +1,3 @@
-// src/api/client.js
 const RAW = (import.meta.env.VITE_API_URL || 'http://localhost:3000').replace(
   /\/+$/,
   ''
@@ -34,7 +33,6 @@ export async function apiFetch(path, options = {}) {
   }
 
   if (!res.ok) {
-    // спеціальний код для 401
     if (res.status === 401) throw new Error('AUTH_REQUIRED');
     const msg =
       typeof data === 'string' ? data : data?.message || 'Request failed';

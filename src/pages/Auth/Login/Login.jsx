@@ -8,7 +8,6 @@ import s from './Login.module.css';
 import phone1 from '../../../assets/phone-1.png';
 import phone2 from '../../../assets/phone-2.png';
 
-// Безпечний конструктор API root
 const RAW = (import.meta.env.VITE_API_URL || 'http://localhost:3000').replace(
   /\/+$/,
   ''
@@ -33,26 +32,21 @@ const Login = () => {
   const [isLoading, setLoading] = useState(false);
   const [serverError, setServerError] = useState('');
 
-  // Якщо вже є активна сесія — редірект на головну
   useEffect(() => {
     let ignore = false;
     (async () => {
       try {
-        // Було /auth/current → має бути /auth/me (згідно з твоїм бекендом)
         const res = await fetch(apiUrl('/auth/me'), { credentials: 'include' });
         if (!ignore && res.ok) {
           navigate('/', { replace: true });
         }
-      } catch (_) {
-        // ігноруємо мережеві помилки
-      }
+      } catch (_) {}
     })();
     return () => {
       ignore = true;
     };
   }, [navigate]);
 
-  // Єдина точка входу — submit форми
   const onSubmit = async (values) => {
     setServerError('');
     setLoading(true);
@@ -63,7 +57,6 @@ const Login = () => {
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({
-          // ВАЖЛИВО: ключі так, як очікує бекенд
           emailOrUsername: values.emailOrUsername.trim(),
           password: values.password,
         }),
@@ -75,7 +68,6 @@ const Login = () => {
       } catch (_) {}
 
       if (!res.ok) {
-        // Якщо бек повернув Joi-деталі — показуємо під відповідними полями
         if (data?.details?.length) {
           for (const d of data.details) {
             const path = Array.isArray(d.path) ? d.path[0] : d.path;
@@ -89,7 +81,6 @@ const Login = () => {
         );
       }
 
-      // Успіх → на головну
       navigate('/', { replace: true });
     } catch (err) {
       setServerError(err.message || 'Something went wrong');
@@ -109,7 +100,6 @@ const Login = () => {
         <div className={s.card}>
           <Logo className={s.logo} />
 
-          {/* лишив ту саму розмітку та класи; немає action, лише onSubmit */}
           <form className={s.form} onSubmit={handleSubmit(onSubmit)} noValidate>
             <input
               className={s.input}
@@ -134,7 +124,6 @@ const Login = () => {
               <p className={s.err}>{errors.password.message}</p>
             )}
 
-            {/* загальна помилка з бекенда */}
             {serverError && <p className={s.err}>{serverError}</p>}
 
             <button type="submit" className={s.btn} disabled={isLoading}>

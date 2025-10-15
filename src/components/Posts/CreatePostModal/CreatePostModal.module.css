@@ -83,11 +83,13 @@
   }
 }
 
-.modal, .dialog, .content {
+.modal,
+.dialog,
+.content {
   position: relative;
 }
 
-.CloseButton{
+.CloseButton {
   position: absolute;
   right: 12px;
   bottom: 12px;

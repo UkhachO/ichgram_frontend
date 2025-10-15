@@ -1,4 +1,3 @@
-// src/components/PostCard/PostSkeleton.jsx
 import styles from './PostCard.module.css';
 
 export default function PostSkeleton() {

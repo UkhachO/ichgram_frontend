@@ -1,14 +1,12 @@
-// src/components/Posts/PostViewer/PostViewer.jsx
 import { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './PostViewer.module.css';
 
-import CloseButton from '../../../shared/ui/CloseButton/CloseButton'
+import CloseButton from '../../../shared/ui/CloseButton/CloseButton';
 import { toggleLike } from '../../../api/likes';
 import { addComment, listComments } from '../../../api/comments';
 
 const CMT_LIMIT = 20;
 
-// simple SVGs (без сторонніх іконпаків)
 function Heart({ filled }) {
   return filled ? (
     <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
@@ -52,11 +50,9 @@ export default function PostViewer({
   post: outerPost,
   onUpdated,
 }) {
-  // локальна копія поста (щоб оптимістично міняти лайки/опис і не ламати проп)
   const [post, setPost] = useState(outerPost);
   useEffect(() => setPost(outerPost), [outerPost?.id || outerPost?._id, open]);
 
-  // лайки
   const [liked, setLiked] = useState(Boolean(outerPost?.isLiked));
   const [likes, setLikes] = useState(Number(outerPost?.likes || 0));
   useEffect(() => {
@@ -64,7 +60,6 @@ export default function PostViewer({
     setLikes(Number(outerPost?.likes || 0));
   }, [outerPost?.isLiked, outerPost?.likes]);
 
-  // коментарі
   const [comments, setComments] = useState([]);
   const [cPage, setCPage] = useState(1);
   const [cPages, setCPages] = useState(1);
@@ -75,7 +70,6 @@ export default function PostViewer({
 
   const postId = useMemo(() => String(post?._id ?? post?.id ?? ''), [post]);
 
-  // закриття по Esc
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => e.key === 'Escape' && onClose?.();
@@ -83,7 +77,6 @@ export default function PostViewer({
     return () => window.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
-  // перший фетч коментарів
   useEffect(() => {
     if (!open || !postId) return;
     (async () => {
@@ -104,7 +97,6 @@ export default function PostViewer({
     })();
   }, [open, postId]);
 
-  // infinite scroll у панелі коментарів
   useEffect(() => {
     if (!open || !sentinelRef.current) return;
     const el = sentinelRef.current;
@@ -145,13 +137,11 @@ export default function PostViewer({
     return () => io.disconnect();
   }, [open, cPage, cPages, canLoadMore, postId]);
 
-  // лайк / анлайк — оптимістично
   const onToggleLike = async () => {
     if (!postId) return;
     const prevLiked = liked;
     const prevLikes = likes;
 
-    // оптимістично
     setLiked(!prevLiked);
     setLikes((v) => (prevLiked ? Math.max(0, v - 1) : v + 1));
     setPost((p) => ({
@@ -168,7 +158,6 @@ export default function PostViewer({
     try {
       await toggleLike(postId);
     } catch (e) {
-      // відкат
       setLiked(prevLiked);
       setLikes(prevLikes);
       setPost((p) => ({ ...p, isLiked: prevLiked, likes: prevLikes }));
@@ -176,7 +165,6 @@ export default function PostViewer({
     }
   };
 
-  // додати коментар — оптимістично
   const [draft, setDraft] = useState('');
   const inputRef = useRef(null);
 
@@ -197,14 +185,13 @@ export default function PostViewer({
       _optimistic: true,
     };
 
-    setComments((prev) => [optimistic, ...prev]); // показуємо миттєво
+    setComments((prev) => [optimistic, ...prev]);
     setDraft('');
 
     try {
       const data = await addComment(postId, text);
       const saved = data?.comment || data?.data || data;
 
-      // замінюємо optimistic-рядок реальним
       setComments((prev) => {
         const copy = [...prev];
         const idx = copy.findIndex((c) => c._id === optimistic._id);
@@ -212,9 +199,8 @@ export default function PostViewer({
         return copy;
       });
     } catch (e) {
-      // при помилці прибираємо оптимістичний
       setComments((prev) => prev.filter((c) => c._id !== optimistic._id));
-      setDraft(text); // повернемо текст у інпут, щоб юзер міг повторити
+      setDraft(text);
       inputRef.current?.focus();
     }
   };
@@ -229,7 +215,6 @@ export default function PostViewer({
         role="dialog"
         aria-modal="true"
       >
-        {/* ХРЕСТИК: куди зручно — або top-right, або додай свій клас */}
         <CloseButton onClick={onClose} className={styles.closeTopRight} />
 
         <div className={styles.left}>
@@ -237,7 +222,6 @@ export default function PostViewer({
         </div>
 
         <div className={styles.right}>
-          {/* header */}
           <div className={styles.header}>
             <img
               className={styles.avatar}
@@ -254,7 +238,6 @@ export default function PostViewer({
             </div>
           </div>
 
-          {/* scrollable content: опис + коментарі */}
           <div className={styles.commentsArea}>
             {post.description ? (
               <div className={styles.caption}>
@@ -283,7 +266,6 @@ export default function PostViewer({
                 </div>
               ))}
 
-              {/* sentinel для підвантаження */}
               <div ref={sentinelRef} />
             </div>
 
@@ -291,7 +273,6 @@ export default function PostViewer({
             {cError && <div className={styles.cError}>{cError}</div>}
           </div>
 
-          {/* actions + likes */}
           <div className={styles.actions}>
             <button
               type="button"
@@ -314,7 +295,6 @@ export default function PostViewer({
             {likes} {likes === 1 ? 'like' : 'likes'}
           </div>
 
-          {/* add comment */}
           <div className={styles.addComment}>
             <input
               ref={inputRef}

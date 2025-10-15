@@ -1,4 +1,3 @@
-// src/components/ui/CloseButton.jsx
 import styles from './CloseButton.module.css';
 
 export default function CloseButton({

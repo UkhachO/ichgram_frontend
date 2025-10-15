@@ -1,4 +1,3 @@
-// src/pages/Home/Home.jsx
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './Home.module.css';
 
@@ -20,12 +19,10 @@ export default function Home() {
   const [firstLoad, setFirstLoad] = useState(true);
   const [error, setError] = useState('');
 
-  // модалки
   const [viewerPost, setViewerPost] = useState(null);
   const [showCreate, setShowCreate] = useState(false);
-  const [editInit, setEditInit] = useState(null); // { id, imageUrl, description }
+  const [editInit, setEditInit] = useState(null);
 
-  // нескінченний скрол
   const sentinelRef = useRef(null);
 
   const canLoadMore = useMemo(
@@ -33,7 +30,6 @@ export default function Home() {
     [page, pages, loading]
   );
 
-  // мердж по id/_id для уникнення дублікатів
   const merge = useCallback((arr) => {
     const map = new Map();
     for (const p of arr) {
@@ -69,13 +65,10 @@ export default function Home() {
     [loading, merge]
   );
 
-  // перший лоад
   useEffect(() => {
     load(1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // нескінченний скрол через IntersectionObserver
   useEffect(() => {
     const el = sentinelRef.current;
     if (!el) return;
@@ -108,15 +101,12 @@ export default function Home() {
 
   return (
     <div className={styles.wrap}>
-      {/* помилка */}
       {error && <div className={styles.error}>{String(error)}</div>}
 
-      {/* порожньо */}
       {!firstLoad && !loading && gridPosts.length === 0 && (
-        <div className={styles.empty}>Поки що тут порожньо.</div>
+        <div className={styles.empty}>Пока здесь пусто...</div>
       )}
 
-      {/* сітка карток */}
       <div className={styles.grid}>
         {gridPosts.map((p) => {
           const id = String(p._id ?? p.id);
@@ -124,7 +114,7 @@ export default function Home() {
             <PostCard
               key={id}
               post={p}
-              currentUserId={window.__currentUserId || ''} // заміниш на свій контекст/стор
+              currentUserId={window.__currentUserId || ''}
               onOpen={(post) => setViewerPost(post)}
               onEdit={(post) => {
                 setEditInit({
@@ -132,27 +122,23 @@ export default function Home() {
                   imageUrl: post.imageUrl,
                   description: post.description || '',
                 });
-                setShowCreate(true); // редагування в модалці
+                setShowCreate(true);
               }}
               onRemoved={(post) => onRemoveOptimistic(post)}
             />
           );
         })}
 
-        {/* перший лоад — реальні скелетони */}
         {firstLoad &&
           Array.from({ length: 6 }).map((_, i) => (
             <PostSkeleton key={`sk-${i}`} />
           ))}
       </div>
 
-      {/* sentinel для нескінченного скролу */}
       <div ref={sentinelRef} className={styles.sentinel} />
 
-      {/* кінець фіда */}
       {!canLoadMore && !firstLoad && <FeedEnd />}
 
-      {/* Модалки */}
       <PostViewer
         open={!!viewerPost}
         post={viewerPost}

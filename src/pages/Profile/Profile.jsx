@@ -1,30 +1,29 @@
-// src/pages/Profile/Profile.jsx
 import { useEffect, useMemo, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styles from './Profile.module.css';
 
 import { getMe, getUserById } from '../../api/users';
-import { getUserPosts } from '../../api/users';
+import { fetchPosts } from '../../api/posts';
+
 import PostCard from '../../components/PostCard/PostCard';
 import PostSkeleton from '../../components/PostCard/PostSkeleton';
 
 export default function Profile() {
-  const { id } = useParams(); // /profile або /profile/:id
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
   const [loadingUser, setLoadingUser] = useState(true);
-  const [loadingPosts, setLoadingPosts] = useState(true);
+  const [loadingPosts, setLoadingPosts] = useState(false);
   const [error, setError] = useState('');
 
-  // хто дивиться — свій профіль?
   const isOwn = !id;
 
   useEffect(() => {
     let alive = true;
 
-    async function loadUser() {
+    (async () => {
       setLoadingUser(true);
       setError('');
       try {
@@ -32,38 +31,52 @@ export default function Profile() {
         if (!alive) return;
         setUser(data?.user ?? data);
       } catch (e) {
+        if (!alive) return;
         setError(e?.message || 'Failed to load profile');
       } finally {
+        if (!alive) return;
         setLoadingUser(false);
       }
-    }
+    })();
 
-    loadUser();
-    return () => (alive = false);
+    return () => {
+      alive = false;
+    };
   }, [id, isOwn]);
 
   useEffect(() => {
     let alive = true;
-    async function loadPosts() {
-      if (!user?._id) return;
+
+    async function loadPosts(uid) {
       setLoadingPosts(true);
       try {
-        const data = await getUserPosts({
-          authorId: user._id,
+        const { items } = await fetchPosts({
           page: 1,
           limit: 12,
+          author: uid,
         });
         if (!alive) return;
-        setPosts(data?.items ?? data?.data?.items ?? []);
+        setPosts(items || []);
       } catch (e) {
-        // мʼяко ігноруємо
+        if (!alive) return;
+        setError(e?.message || 'Failed to load posts');
       } finally {
+        if (!alive) return;
         setLoadingPosts(false);
       }
     }
-    loadPosts();
-    return () => (alive = false);
-  }, [user?._id]);
+
+    const uid = user?._id || user?.id;
+    if (uid) {
+      loadPosts(uid);
+    } else {
+      setPosts([]);
+    }
+
+    return () => {
+      alive = false;
+    };
+  }, [user?._id, user?.id]);
 
   const counts = useMemo(
     () => ({
@@ -117,7 +130,6 @@ export default function Profile() {
             </li>
           </ul>
 
-          {/* біо + сайт якщо є */}
           <div className={styles.bio}>
             {user?.about ? <p>{user.about}</p> : null}
             {user?.website ? (
